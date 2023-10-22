@@ -1,5 +1,7 @@
 ## find common sequence
 
+[![Run Tests](https://github.com/mfa/longest-common-sequence/actions/workflows/tests.yaml/badge.svg)](https://github.com/mfa/longest-common-sequence/actions/workflows/tests.yaml)
+
 deployed: https://lcs.madflex.de/
 
 
