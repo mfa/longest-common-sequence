@@ -23,8 +23,6 @@ async def lcs(item: Item) -> set[str]:
     # filter empty strings from both lists
     positives = list(filter(None, item.positives))
     negatives = list(filter(None, item.negatives))
-    print(positives)
-    print(negatives)
     return get_longest_common_sequence(positives, negatives, item.cut_off)
 
 
