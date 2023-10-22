@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Longest Common Sequence</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="columns mt-5">
+        <div class="column is-2">
+        </div>
+        <div class="column is-8 mx-2">
+          <h1 class="is-size-3">Generate the longest common sequence.</h1>
+
+          <form action="/" method="post" class="mt-5">
+
+	    <div class="field">
+	      <label class="label">Positive Strings</label>
+	      <div class="control">
+		<textarea class="textarea" placeholder="String1
+String2" id="positives"></textarea>
+	      </div>
+	      <p class="help">All strings that should be matches. One string per line. Minimum 2 lines.</p>
+	    </div>
+
+	    <div class="field">
+	      <label class="label">Negative Strings</label>
+	      <div class="control">
+		<textarea class="textarea" placeholder="negative1
+negative2" id="negatives"></textarea>
+	      </div>
+	      <p class="help">All strings that should be NOT be matched. One string per line</p>
+	    </div>
+
+	    <div class="columns">
+	      <div class="column is-half">
+		<div class="field">
+		  <label class="label">Minimum length of common sequence</label>
+		  <input id="cut_off" class="input" type="number" value="3">
+		</div>
+	      </div>
+	      <div class="column" style="margin-top:auto;">
+		<div class="control is-pulled-right">
+		  <button id="submit" class="button is-primary" value="submit" type="submit">Generate</button>
+		</div>
+	      </div>
+	    </div>
+          </form>
+
+	  <div class="mt-5" id="result">
+	  </div>
+
+          <h4 class="is-size-4 mt-6">Source Code</h4>
+          <p>The source code of this site is on Github: <a href="https://github.com/mfa/longest-common-sequence">https://github.com/mfa/longest-common-sequence</a></p>
+        </div>
+      </div>
+    </div>
+  </body>
+<script type="text/javascript">
+
+  function postForm(positives, negatives, cut_off) {
+      return fetch('/', {
+	  method: 'post',
+	  headers: {
+	      'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify({
+	      positives: positives,
+	      negatives: negatives,
+	      cut_off: cut_off,
+	  })
+      })
+	  .then(
+	      function(response) {
+		  return response.json();
+	      }
+	  )
+	  .catch(error => console.log(error));
+  }
+
+  function process() {
+      const positives=document.getElementById('positives').value.split("\n");
+      if(positives.length > 1){
+	  const negatives=document.getElementById('negatives').value.split("\n");
+	  const cut_off=document.getElementById('cut_off').value;
+	  document.getElementById("result").innerHTML = "processing ...";
+	  postForm(positives, negatives, cut_off)
+	      .then(data => {
+		  document.getElementById("result").innerHTML = "<pre>" + JSON.stringify(data,null,"\t") + "</pre>";
+	      })
+	      .catch(error => console.log(error));
+      }
+  };
+
+  window.onload = function () {
+      document.getElementById("submit").onclick = function() {
+	  event.preventDefault();
+	  process();
+      };
+  };
+  </script>
+</html>

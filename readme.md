@@ -1,5 +1,8 @@
 ## find common sequence
 
+deployed: https://lcs.madflex.de/
+
+
 ### problem definition
 
 We have a set of strings and want to find common strings of them,
@@ -26,9 +29,18 @@ another not relevant string
 resulting strings (positive for set1, negative for set2): ``example``
 
 
+### local setup
+
+```
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+
 ### tests
 
 ```
-pip install pytest
+pip install -r requirements.txt
+pip install pytest pyyaml
 python -m pytest
 ```

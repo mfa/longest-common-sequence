@@ -15,14 +15,17 @@ def filter_substrings(matches):
     for match in matches:
         _matches = copy(matches)
         _matches.remove(match)
-        if all(map(lambda x:match not in x, _matches)):
+        # return everything with spaces -- otherwise this is too aggressive
+        if " " in match:
+            yield match
+        elif all(map(lambda x: match not in x, _matches)):
             yield match
 
 
 def gen_match_strings(examples, matches, cutoff=3):
     for s, ms in zip(examples, matches):
         for m in ms:
-            if m.size > cutoff:
+            if m.size >= cutoff:
                 yield s[m.a : m.a + m.size]
 
 
@@ -32,7 +35,7 @@ def check_match_strings(examples, mstrings, op):
             yield mstr
 
 
-def get_longest_common_substrings(positives, negatives, cutoff=3):
+def get_longest_common_sequence(positives, negatives, cutoff=3):
     ms = gen_match_strings(positives, get_matches(positives), cutoff=cutoff)
 
     # find positive matches
@@ -42,5 +45,4 @@ def get_longest_common_substrings(positives, negatives, cutoff=3):
 
     # check against the negative examples
     negative_matches = set(check_match_strings(negatives, positive_matches, op=any))
-
     return positive_matches - negative_matches
